@@ -10,7 +10,15 @@ return function (ContainerBuilder $containerBuilder) {
             // Settings from env file
             $cfg = $c->get('defaults');
 
-            if ($cfg['APP_DEBUG'] === 'true') {
+            // String to bool
+            $app_debug = !strcasecmp($cfg['APP_DEBUG'], 'true');
+
+            // Always debug in development mode
+            if ($cfg['APP_ENV'] != 'production') {
+                $app_debug = true;
+            }
+
+            if ($app_debug === true) {
                 // Report all PHP errors
                 error_reporting(E_ALL);
             } else {
@@ -19,7 +27,6 @@ return function (ContainerBuilder $containerBuilder) {
             }
 
             $var_dir = '/../../var';
-            $full_url = (empty($_SERVER['HTTPS']) ? 'http' : 'https') . "://" . $_SERVER['HTTP_HOST'] . $cfg['BASE_PATH'];
             return [
                 // app details
                 'session_name' => 'SLIM_FRAMEWORK',
@@ -30,9 +37,7 @@ return function (ContainerBuilder $containerBuilder) {
                 
                 // debug settings
                 'app_env' => $cfg['APP_ENV'],
-
-                // always debug on development mode
-                'app_debug' => $cfg['APP_ENV'] != 'production' || !strcasecmp($cfg['APP_DEBUG'], 'true'),
+                'app_debug' => $app_debug,
                 
                 // app settings
                 'time_zone' => $db_settings['time_zone'] ?? $cfg['TIME_ZONE'],
