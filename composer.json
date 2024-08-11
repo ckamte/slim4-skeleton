@@ -1,0 +1,30 @@
+{
+    "name": "ckamte/slim4-skeleton",
+    "description": "Slim 4 skeleton with Twig",
+    "license": "MIT",
+    "type": "project",
+    "keywords": [
+        "slim-framework",
+        "skeleton",
+        "slim",
+        "slim4",
+        "twig"
+    ],
+    "require": {
+        "php": "^8.2",
+        "ext-json": "*",
+        "slim/slim": "4.*",
+        "slim/psr7": "^1.7",
+        "php-di/php-di": "^7.0",
+        "slim/twig-view": "^3.4",
+        "monolog/monolog": "^3.7"
+    },
+    "autoload": {
+        "psr-4": {
+            "App\\": "src/"
+        }
+    },
+    "scripts": {
+        "test": "php -S localhost:8080 -t public"
+    }
+}
