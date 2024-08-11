@@ -34,7 +34,7 @@ return function (ContainerBuilder $containerBuilder) {
             fclose($handle);
 
             /* Get base path */
-            $defaults['BASE_PATH'] =  '';
+            $basePath = '';
             if (isset($_SERVER['REQUEST_URI'])) {
                 // Current url path
                 $curUrl = (string)parse_url($_SERVER['REQUEST_URI'], PHP_URL_PATH);
@@ -52,10 +52,9 @@ return function (ContainerBuilder $containerBuilder) {
                         $basePath = substr($curUrl, 0, $length);
                     }
                 }
-                
-                // Remove tailing back-slash
-                $defaults['BASE_PATH'] =  rtrim($basePath, '/');
             }
+            // Remove tailing back-slash
+            $defaults['BASE_PATH'] =  rtrim($basePath, '/');
 
             return $defaults;
         }
