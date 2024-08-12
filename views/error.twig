@@ -13,13 +13,17 @@
 </div>
 <div class="d-flex justify-content-center gap-2 mb-3">
     <a class="btn btn-outline-primary" href="{{ app.base }}">Home</a>
+    {% if error.details %}
     <button class="btn btn-info" type="button" data-bs-toggle="collapse" data-bs-target="#collapseExample">
         Show Details
     </button>
+    {% endif %}
 </div>
+{% if error.details %}
 <div class="container collapse" id="collapseExample">
     <div class="card card-body">
         {{ error.details|raw }}
     </div>
 </div>
+{% endif %}
 {% endblock %}
