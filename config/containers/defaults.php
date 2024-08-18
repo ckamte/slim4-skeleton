@@ -18,17 +18,33 @@ return function (ContainerBuilder $containerBuilder) {
 
             // read env file
             while (($buffer = fgets($handle, 4096)) !== false) {
-                // clean up empty lines
-                $buffer = str_replace(["\r\n", "\n", "\r"], '', $buffer);
+                // clean up unnecessary white spaces
+                $buffer = trim($buffer);
 
-                if ((strlen($buffer) > 0) && (str_contains($buffer, '='))) {
-                    // create env array from first equal sign only
-                    $tmp = explode('=', $buffer, 2);
-                    // remove white spaces and quotes
-                    $key = trim($tmp[0]);
-                    $val = trim(str_replace('"', '', $tmp[1]));
-                    $defaults[$key] = $val;
+                // ignoring comments and empty lines
+                if ((str_starts_with($buffer, '#')) || (!str_contains($buffer, '='))) {
+                    continue;
                 }
+
+                // create env array from first equal sign only
+                $tmp = explode('=', $buffer, 2);
+
+                // remove white spaces and quotes
+                $key = trim($tmp[0]);
+
+                // for line comment
+                $val = trim($tmp[1]);
+                if (str_contains($val, '"')) {
+                    preg_match('~"(.*?)"~', $val, $param);
+                    $param = $param[1];
+                } elseif (str_contains($val, '\'')) {
+                    preg_match('~\'(.*?)\'~', $val, $param);
+                    $param = $param[1];
+                } else {
+                    $param = strtok($val, '#');
+                }
+
+                $defaults[$key] = trim($param);
             }
             // close file
             fclose($handle);

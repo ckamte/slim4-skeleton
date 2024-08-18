@@ -5,12 +5,15 @@ use App\Handlers\TwigErrorHandler;
 
 require __DIR__ . '/../vendor/autoload.php';
 
-// Create and Set container
+// Create container
 $container = include __DIR__ . '/../config/containers.php';
 $settings = $container->get('settings');
-AppFactory::setContainer($container);
 
-// Create app
+// Set time zone
+date_default_timezone_set($settings['time_zone']);
+
+// Create app with container
+AppFactory::setContainer($container);
 $app = AppFactory::create();
 $app->setBasePath($settings['base_path']);
 

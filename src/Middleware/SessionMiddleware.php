@@ -20,10 +20,10 @@ class SessionMiddleware implements Middleware
 
     /**
      * Set php session with session name
-     * 
-     * @param Request        $request PSR-7 request
+     *
+     * @param Request $request PSR-7 request
      * @param RequestHandler $handler PSR-15 request handler
-     * 
+     *
      * @return Response
      */
     public function process(Request $request, RequestHandler $handler): Response
